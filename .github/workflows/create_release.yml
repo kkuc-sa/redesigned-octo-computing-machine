@@ -34,6 +34,14 @@ jobs:
     - name: Set MARKETING_VERSION
       run: bundle exec fastlane set_marketing_version version:${{ github.event.inputs.version }}
 
+    - name: Update docs
+      env:
+        HOSTING_BASE_PATH: {{ github.event.repository.name }}
+      run: |
+        sh scripts/generate_docs.sh
+        git add docs/
+        git commit --message "[skip ci] Update docs"
+
     - name: Push release branch
       run: git push origin release/${{ github.event.inputs.version }}
 
@@ -45,11 +53,3 @@ jobs:
         head: release/${{ github.event.inputs.version }}
         base: main
         title: ${{ github.event.inputs.version }} into main
-
-    - name: Update docs
-      env:
-        HOSTING_BASE_PATH: {{ github.event.repository.name }}
-      run: |
-        sh scripts/generate_docs.sh
-        git add docs/
-        git commit --message "[skip ci] Update docs"
