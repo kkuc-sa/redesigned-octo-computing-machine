@@ -6,12 +6,11 @@ ARCHIVE=$DERIVED_DIR/Build/Products/Debug-iphoneos/Project.doccarchive
 
 xcodebuild docbuild \
     -scheme Project \
-    -workspace Project.xcworkspace \
     -destination generic/platform=iOS \
     -derivedDataPath $DERIVED_DIR
 
 $(xcrun --find docc) process-archive transform-for-static-hosting "$ARCHIVE" \
-    --hosting-base-path /redesigned-octo-computing-machine \
+    --hosting-base-path /$HOSTING_BASE_PATH \
     --output-path $DOCS_DIR
 
 # Clean up
