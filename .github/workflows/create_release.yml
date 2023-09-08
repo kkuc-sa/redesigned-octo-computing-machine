@@ -40,15 +40,9 @@ jobs:
     - name: Create pull request into main
       uses: thomaseizinger/create-pull-request@1.0.0
       with:
-       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-       head: release/${{ github.event.inputs.version }}
-       base: main
-       title: ${{ github.event.inputs.version }} into main
-       reviewers: ${{ github.event.issue.user.login }}
-       body: |
-           Hi!
-           This PR was created in response workflow running.
-           I've updated the version name and code commit: ${{ steps.make-commit.outputs.commit }}.
+        head: release/${{ github.event.inputs.version }}
+        base: main
+        title: ${{ github.event.inputs.version }} into main
 
     # - name: Change version number and name
     #   run: printf 'ext.version_code = ${{ github.event.inputs.versionCode }}\next.version_name = "${{ github.event.inputs.versionName }}"\n' > app_versions.gradle
