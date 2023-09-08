@@ -40,6 +40,7 @@ jobs:
         head: release/${{ github.event.inputs.version }}
         base: main
         title: ${{ github.event.inputs.version }} into main
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Set MARKETING_VERSION
       run: bundle exec fastlane set_marketing_version version:${{ github.event.inputs.version }}
