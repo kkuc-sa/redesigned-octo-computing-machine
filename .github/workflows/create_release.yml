@@ -36,7 +36,7 @@ jobs:
 
     - name: Update docs
       env:
-        HOSTING_BASE_PATH: {{ github.event.repository.name }}
+        HOSTING_BASE_PATH: ${{ github.event.repository.name }}
       run: |
         sh scripts/generate_docs.sh
         git add docs/
