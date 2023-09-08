@@ -31,19 +31,20 @@ jobs:
     - name: Create release branch
       run: git checkout -b release/${{ github.event.inputs.version }}
 
+    - name: Set MARKETING_VERSION
+      run: bundle exec fastlane set_marketing_version version:${{ github.event.inputs.version }}
+
     - name: Push release branch
       run: git push origin release/${{ github.event.inputs.version }}
 
     - name: Create pull request into main
       uses: thomaseizinger/create-pull-request@1.0.0
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         head: release/${{ github.event.inputs.version }}
         base: main
         title: ${{ github.event.inputs.version }} into main
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Set MARKETING_VERSION
-      run: bundle exec fastlane set_marketing_version version:${{ github.event.inputs.version }}
 
     # - name: Change version number and name
     #   run: printf 'ext.version_code = ${{ github.event.inputs.versionCode }}\next.version_name = "${{ github.event.inputs.versionName }}"\n' > app_versions.gradle
