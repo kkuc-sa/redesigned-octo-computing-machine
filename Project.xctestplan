@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "78EB191B-CC97-45AD-AB2E-F0C85CEA0A41",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:Project.xcodeproj",
+        "identifier" : "03D845B02AAB3F89003C2B9E",
+        "name" : "ProjectTests"
+      }
+    }
+  ],
+  "version" : 1
+}

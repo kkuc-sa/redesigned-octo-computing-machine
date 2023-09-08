@@ -1,0 +1,97 @@
+fastlane_require 'dotenv'
+default_platform(:ios)
+
+ENV['FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT'] = "60"
+ENV['FASTLANE_XCODEBUILD_SETTINGS_RETRIES'] = "10"
+
+# - Variables
+
+module_name = "Project"
+precompiled_folder_path = "Precompiled"
+build_folder_path = ".build"
+precompiled_xcframework_path = "#{precompiled_folder_path}/Project.xcframework"
+xcodeproj_path = "Project.xcodeproj"
+pbxproj_path = "#{xcodeproj_path}/project.pbxproj"
+
+# - Lanes
+
+update_fastlane
+
+platform :ios do
+
+  before_all do |lane, options|
+    Dotenv.overload '.env.secret'
+  end
+
+  desc "Runs module unit tests"
+  lane :test do 
+    run_tests(scheme: module_name)
+  end
+
+  desc "Releases a new version of the module"
+  lane :release do |options|
+    ref = options[:ref]
+    version = get_version_from_ref(ref: ref)
+
+    sh("git checkout -b #{ref} || true")
+    bump_marketing_version(version: version)
+    precompile
+    release_to_github(version: version)
+    clean
+  end
+
+  # Private
+
+  desc "Bumps MARKETING_VERION from ref"
+  private_lane :bump_marketing_version do |options|
+    version = options[:version]
+    UI.message "Bumping bundle version with #{version}"
+
+    increment_version_number_in_xcodeproj(
+      version_number: version,     
+      xcodeproj: xcodeproj_path
+    )
+    git_commit(
+      path: [pbxproj_path],
+      message: "[skip ci] Bump module version",
+      allow_nothing_to_commit: true
+    )
+    # push_to_git_remote(
+    #   tags: false,
+    #   force: true,
+    #   no_verify: true
+    # )
+  end
+
+  desc "Precompiles module to xcframework"
+  lane :precompile do 
+    precompile_module(
+      scheme_name: module_name,
+      module_name: module_name,
+      output_dir: precompiled_folder_path
+    )
+  end
+
+  desc "Releases precompiled xcframework to GitHub"
+  private_lane :release_to_github do |options|
+    version = options[:version]
+
+    set_github_release(
+      repository_name: github_repository_name,
+      api_token: github_api_token,
+      tag_name: version,
+      upload_assets: [precompiled_xcframework_path]
+    )
+  end
+
+  private_lane :clean do
+    clean_outputs(output_dir: precompiled_folder_path)
+  end  
+
+end
+
+# - Utils
+
+def github_api_token
+  ENV['GITHUB_API_TOKEN']
+end
