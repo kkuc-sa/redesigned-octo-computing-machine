@@ -51,13 +51,13 @@ platform :ios do
     )
     git_commit(
       path: [pbxproj_path],
-      message: "[skip ci] Bump module version",
+      message: "[skip ci] Set module version to #{version}",
       allow_nothing_to_commit: true
     )
   end
 
-  desc "Precompiles module to xcframework"
-  lane :precompile do 
+  desc "Builds module to xcframework"
+  lane :build_xcframework do 
     precompile_module(
       scheme_name: module_name,
       module_name: module_name,
@@ -73,7 +73,8 @@ platform :ios do
       repository_name: github_repository_name,
       api_token: github_api_token,
       tag_name: version,
-      upload_assets: [precompiled_xcframework_path]
+      upload_assets: [precompiled_xcframework_path],
+      is_draft: true
     )
   end
 
@@ -87,4 +88,8 @@ end
 
 def github_api_token
   ENV['GITHUB_API_TOKEN']
+end
+
+def github_repository_name
+  ENV['GITHUB_REPOSITORY_NAME']
 end

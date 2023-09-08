@@ -34,6 +34,15 @@ jobs:
     - name: Set MARKETING_VERSION
       run: bundle exec fastlane set_marketing_version version:${{ github.event.inputs.version }}
 
+    - name: Build xcframework
+      run: bundle exec fastlane build_xcframework
+
+    - name: Set GitHub release
+      env: 
+        GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_REPOSITORY_NAME: ${{ github.repository }}
+      run: bundle exec fastlane release_to_github version:${{ github.event.inputs.version }}
+
     - name: Update docs
       env:
         HOSTING_BASE_PATH: ${{ github.event.repository.name }}
