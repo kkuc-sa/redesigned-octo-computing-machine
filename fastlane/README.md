@@ -31,6 +31,14 @@ Runs module unit tests
 
 Releases a new version of the module
 
+### ios set_marketing_version
+
+```sh
+[bundle exec] fastlane ios set_marketing_version
+```
+
+Sets MARKETING_VERION and commits changes
+
 ### ios precompile
 
 ```sh
@@ -38,6 +46,22 @@ Releases a new version of the module
 ```
 
 Precompiles module to xcframework
+
+### ios release_to_github
+
+```sh
+[bundle exec] fastlane ios release_to_github
+```
+
+Releases precompiled xcframework to GitHub
+
+### ios clean
+
+```sh
+[bundle exec] fastlane ios clean
+```
+
+
 
 ----
 
