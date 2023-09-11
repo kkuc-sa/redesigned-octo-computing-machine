@@ -1,11 +1,9 @@
 name: Publish release
 
 on:
-  pull_request:
+  push:
     branches:
-      - main
-    types:
-      - closed
+    - main
 
 jobs:
   publish_release:
