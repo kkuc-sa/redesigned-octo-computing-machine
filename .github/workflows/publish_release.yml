@@ -10,7 +10,7 @@ on:
 jobs:
   publish_release:
     runs-on: ubuntu-latest
-    # if: github.event.pull_request.merged == true && (startsWith(github.event.pull_request.head.ref, 'release/') || startsWith(github.event.pull_request.head.ref, 'hotfix/'))
+    if: github.event.pull_request.merged == true && (startsWith(github.event.pull_request.head.ref, 'release/') || startsWith(github.event.pull_request.head.ref, 'hotfix/'))
     steps:
 
     - name: Extract version from branch name (for release branches)

@@ -12,6 +12,7 @@ build_folder_path = ".build"
 precompiled_xcframework_path = "#{precompiled_folder_path}/Project.xcframework"
 xcodeproj_path = "Project.xcodeproj"
 pbxproj_path = "#{xcodeproj_path}/project.pbxproj"
+podspec_path = "Project.podspec"
 
 # - Lanes
 
@@ -72,9 +73,19 @@ platform :ios do
     set_github_release(
       repository_name: github_repository_name,
       api_token: github_api_token,
-      tag_name: version,
-      upload_assets: [precompiled_xcframework_path],
-      is_prerelease: true
+      upload_assets: [precompiled_xcframework_path]
+    )
+
+    update_podspec
+  end
+
+  lane :update_podspec do
+    binary_source = lane_context[SharedValues::SET_GITHUB_RELEASE_HTML_LINK]
+    set_podspec_http_source(binary_zip_path: binary_source, podspec_path: podspec_path)
+    git_commit(
+      path: [podspec_path],
+      message: "[skip ci] Update podspec",
+      allow_nothing_to_commit: true
     )
   end
 
