@@ -49,10 +49,10 @@ jobs:
       run: git push origin release/${{ github.event.inputs.version }}
 
     - name: Update release
-      - uses: ncipollo/release-action@v1
-        with:
-          allowUpdates: true
-          tag: ${{ github.event.inputs.version }}
+      uses: ncipollo/release-action@v1
+      with:
+        allowUpdates: true
+        tag: ${{ github.event.inputs.version }}
 
     - name: Create pull request into main
       uses: thomaseizinger/create-pull-request@1.0.0
