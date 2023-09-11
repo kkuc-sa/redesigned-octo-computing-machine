@@ -43,7 +43,7 @@ jobs:
       run: |
         sh scripts/generate_docs.sh
         git add docs/
-        git commit --message "[skip ci] Update docs"
+        git commit --message "Update docs"
 
     - name: Push release branch
       run: git push origin release/${{ github.event.inputs.version }}

@@ -51,7 +51,7 @@ platform :ios do
     )
     git_commit(
       path: [pbxproj_path],
-      message: "[skip ci] Set module version to #{version}",
+      message: "Set module version to #{version}",
       allow_nothing_to_commit: true
     )
   end
@@ -90,7 +90,7 @@ platform :ios do
     )
     git_commit(
       path: [podspec_path],
-      message: "[skip ci] Update podspec",
+      message: "Update podspec",
       allow_nothing_to_commit: true
     )
   end
