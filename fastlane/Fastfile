@@ -1,5 +1,4 @@
 fastlane_require 'dotenv'
-fastlane_require 'json'
 
 default_platform(:ios)
 
@@ -72,12 +71,14 @@ platform :ios do
       repository_name: github_repository_name,
       tag_name: version,
       api_token: github_api_token,
-      upload_assets: [precompiled_xcframework_path]
+      upload_assets: [precompiled_xcframework_path],
+      is_prerelease: true
     )
   end
 
   private_lane :update_podspec do |options|
     binary_source = github_release_uploaded_binary_url
+    puts github_release_uploaded_binary_url
     version = options[:version]
 
     version_bump_podspec(
@@ -120,5 +121,5 @@ def github_repository_name
 end
 
 def github_release_uploaded_binary_url
-  JSON.parse(lane_context[SharedValues::SET_GITHUB_RELEASE_JSON])['browser_download_url']
+  lane_context[SharedValues::SET_GITHUB_RELEASE_JSON]["browser_download_url"]
 end

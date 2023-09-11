@@ -23,45 +23,13 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 Runs module unit tests
 
-### ios release
+### ios prepare_release
 
 ```sh
-[bundle exec] fastlane ios release
+[bundle exec] fastlane ios prepare_release
 ```
 
-Releases a new version of the module
-
-### ios set_marketing_version
-
-```sh
-[bundle exec] fastlane ios set_marketing_version
-```
-
-Sets MARKETING_VERION and commits changes
-
-### ios precompile
-
-```sh
-[bundle exec] fastlane ios precompile
-```
-
-Precompiles module to xcframework
-
-### ios release_to_github
-
-```sh
-[bundle exec] fastlane ios release_to_github
-```
-
-Releases precompiled xcframework to GitHub
-
-### ios clean
-
-```sh
-[bundle exec] fastlane ios clean
-```
-
-
+Releases a new version of the module and returns its RELEASE_ID
 
 ----
 
