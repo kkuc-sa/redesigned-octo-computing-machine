@@ -29,7 +29,7 @@ Runs module unit tests
 [bundle exec] fastlane ios prepare_release
 ```
 
-Releases a new version of the module and returns its RELEASE_ID
+Releases a new version of the module
 
 ----
 

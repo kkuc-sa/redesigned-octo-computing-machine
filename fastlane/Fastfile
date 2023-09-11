@@ -77,16 +77,18 @@ platform :ios do
   end
 
   private_lane :update_podspec do |options|
-    puts lane_context[SharedValues::SET_GITHUB_RELEASE_JSON]
-    binary_source = github_release_uploaded_binary_url
     version = options[:version]
+    published_asset_source = resolve_tagged_binary_url(
+      draft_asset_url: github_release_uploaded_binary_url,
+      version: version
+    )
 
     version_bump_podspec(
       path: podspec_path,
       version_number: version
     )
     set_podspec_http_source(
-      binary_zip_path: binary_source,
+      binary_zip_path: published_asset_source,
       podspec_path: podspec_path
     )
     git_commit(

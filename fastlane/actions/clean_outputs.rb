@@ -29,7 +29,7 @@ module Fastlane
         end
   
         def self.authors
-          ["Tpay"]
+          ["kkuc-sa"]
         end
   
         def self.is_supported?(platform)
