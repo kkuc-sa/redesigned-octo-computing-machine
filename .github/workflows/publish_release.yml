@@ -12,7 +12,7 @@ jobs:
     steps:
 
     - name: Echo sth
-      run: echo 'sth'
+      run: echo 'sth..'
 
     # - name: Extract version from branch name (for release branches)
     #   if: startsWith(github.event.pull_request.head.ref, 'release/')
