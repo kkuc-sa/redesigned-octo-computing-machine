@@ -74,7 +74,7 @@ platform :ios do
       api_token: github_api_token,
       tag_name: version,
       upload_assets: [precompiled_xcframework_path],
-      is_draft: true
+      is_prerelease: true
     )
   end
 
