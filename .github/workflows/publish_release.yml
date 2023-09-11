@@ -13,9 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    - name: Echo
-      run: echo "Publishing..."
-
     - name: Extract version from branch name (for release branches)
       if: startsWith(github.event.pull_request.head.ref, 'release/')
       run: |
