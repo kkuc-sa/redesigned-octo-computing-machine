@@ -8,27 +8,30 @@ on:
 jobs:
   publish_release:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true && (startsWith(github.event.pull_request.head.ref, 'release/') || startsWith(github.event.pull_request.head.ref, 'hotfix/'))
+    if: github.event_name == 'pull_request' && github.event.pull_request.merged
     steps:
 
-    - name: Extract version from branch name (for release branches)
-      if: startsWith(github.event.pull_request.head.ref, 'release/')
-      run: |
-        BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
-        VERSION=${BRANCH_NAME#release/}
+    - name: Echo sth
+      run: echo 'sth'
 
-        echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
+    # - name: Extract version from branch name (for release branches)
+    #   if: startsWith(github.event.pull_request.head.ref, 'release/')
+    #   run: |
+    #     BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
+    #     VERSION=${BRANCH_NAME#release/}
 
-    - name: Extract version from branch name (for hotfix branches)
-      if: startsWith(github.event.pull_request.head.ref, 'hotfix/')
-      run: |
-        BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
-        VERSION=${BRANCH_NAME#hotfix/}
+    #     echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
 
-        echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
+    # - name: Extract version from branch name (for hotfix branches)
+    #   if: startsWith(github.event.pull_request.head.ref, 'hotfix/')
+    #   run: |
+    #     BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
+    #     VERSION=${BRANCH_NAME#hotfix/}
 
-    - name: Update release
-      uses: ncipollo/release-action@v1
-      with:
-        allowUpdates: true
-        tag: ${{ env.RELEASE_VERSION }}
+    #     echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
+
+    # - name: Update release
+    #   uses: ncipollo/release-action@v1
+    #   with:
+    #     allowUpdates: true
+    #     tag: ${{ env.RELEASE_VERSION }}
