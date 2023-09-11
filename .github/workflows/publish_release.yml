@@ -27,7 +27,14 @@ jobs:
         VERSION=${BRANCH_NAME#hotfix/}
         echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
 
-    - name: Update release
+    - name: Update release 1
+      uses: ncipollo/release-action@v1
+      with:
+        allowUpdates: true
+        tag: ${{ env.RELEASE_VERSION }}
+        commit: ${{ github.event.pull_request.head.sha }}
+
+    - name: Update release 2
       uses: ncipollo/release-action@v1
       with:
         allowUpdates: true
