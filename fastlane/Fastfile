@@ -29,22 +29,22 @@ platform :ios do
     run_tests(scheme: module_name)
   end
 
-  desc "Releases a new version of the module"
-  lane :release do |options|
-    ref = options[:ref]
-    version = get_version_from_ref(ref: ref)
+  desc "Releases a new version of the module and returns its RELEASE_ID"
+  lane :prepare_release do |options|
+    version = options[:version]
 
-    sh("git checkout -b #{ref} || true")
-    bump_marketing_version(version: version)
-    precompile
+    set_marketing_version(version: version)
+    build_xcframework
     release_to_github(version: version)
-    clean
+    update_podspec(version: version)
+
+    lane_context[SharedValues::SET_GITHUB_RELEASE_RELEASE_ID]
   end
 
-  desc "Sets MARKETING_VERION and commits changes"
-  lane :set_marketing_version do |options|
+  # - Private
+
+  private_lane :set_marketing_version do |options|
     version = options[:version]
-    UI.message "Setting marketing version with #{version}"
 
     increment_version_number_in_xcodeproj(
       version_number: version,     
@@ -57,8 +57,7 @@ platform :ios do
     )
   end
 
-  desc "Builds module to xcframework"
-  lane :build_xcframework do 
+  private_lane :build_xcframework do 
     precompile_module(
       scheme_name: module_name,
       module_name: module_name,
@@ -66,8 +65,7 @@ platform :ios do
     )
   end
 
-  desc "Releases precompiled xcframework to GitHub"
-  lane :release_to_github do |options|
+  private_lane :release_to_github do |options|
     version = options[:version]
 
     set_github_release(
@@ -75,13 +73,20 @@ platform :ios do
       api_token: github_api_token,
       upload_assets: [precompiled_xcframework_path]
     )
-
-    update_podspec
   end
 
-  lane :update_podspec do
+  private_lane :update_podspec do
     binary_source = lane_context[SharedValues::SET_GITHUB_RELEASE_HTML_LINK]
-    set_podspec_http_source(binary_zip_path: binary_source, podspec_path: podspec_path)
+    version = options[:version]
+
+    version_bump_podspec(
+      path: podspec_path,
+      version_number: version
+    )
+    set_podspec_http_source(
+      binary_zip_path: binary_source,
+      podspec_path: podspec_path
+    )
     git_commit(
       path: [podspec_path],
       message: "[skip ci] Update podspec",
@@ -89,9 +94,17 @@ platform :ios do
     )
   end
 
-  lane :clean do
+  private_lane :clean_up do
     clean_outputs(output_dir: precompiled_folder_path)
   end  
+
+  after_all do |lane, options|
+    clean_up
+  end
+
+  error do |lane, exception, options|
+    clean_up
+  end
 
 end
 
