@@ -72,13 +72,13 @@ platform :ios do
       repository_name: github_repository_name,
       tag_name: version,
       api_token: github_api_token,
-      upload_assets: [precompiled_xcframework_path],
-      is_draft: true
+      upload_assets: [precompiled_xcframework_path]
     )
   end
 
   private_lane :update_podspec do |options|
     binary_source = lane_context[SharedValues::SET_GITHUB_RELEASE_HTML_LINK]
+    puts lane_context[SharedValues::SET_GITHUB_RELEASE_JSON]
     version = options[:version]
 
     version_bump_podspec(
