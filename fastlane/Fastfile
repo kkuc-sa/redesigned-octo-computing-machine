@@ -76,7 +76,7 @@ platform :ios do
     )
   end
 
-  private_lane :update_podspec do
+  private_lane :update_podspec do |options|
     binary_source = lane_context[SharedValues::SET_GITHUB_RELEASE_HTML_LINK]
     version = options[:version]
 
