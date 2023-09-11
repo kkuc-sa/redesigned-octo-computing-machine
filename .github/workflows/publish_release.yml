@@ -31,6 +31,4 @@ jobs:
       uses: ncipollo/release-action@v1
       with:
         allowUpdates: true
-        draft: false
         tag: ${{ env.RELEASE_VERSION }}
-        commit: ${{ github.sha }}
