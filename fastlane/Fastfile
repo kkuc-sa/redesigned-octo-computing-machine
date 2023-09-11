@@ -77,8 +77,9 @@ platform :ios do
   end
 
   private_lane :update_podspec do |options|
-    binary_source = github_release_uploaded_binary_url
     puts github_release_uploaded_binary_url
+    puts lane_context[SharedValues::SET_GITHUB_RELEASE_JSON]["browser_download_url"]
+    binary_source = github_release_uploaded_binary_url
     version = options[:version]
 
     version_bump_podspec(
