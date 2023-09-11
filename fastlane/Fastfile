@@ -70,6 +70,7 @@ platform :ios do
 
     set_github_release(
       repository_name: github_repository_name,
+      tag_name: version,
       api_token: github_api_token,
       upload_assets: [precompiled_xcframework_path]
     )
