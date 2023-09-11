@@ -30,7 +30,7 @@ platform :ios do
     run_tests(scheme: module_name)
   end
 
-  desc "Releases a new version of the module and returns its RELEASE_ID"
+  desc "Releases a new version of the module"
   lane :prepare_release do |options|
     version = options[:version]
 
