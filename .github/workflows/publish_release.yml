@@ -32,4 +32,4 @@ jobs:
       with:
         allowUpdates: true
         tag: ${{ env.RELEASE_VERSION }}
-        commit: ${{ github.event.pull_request.head.sha }}
+        commit: ${{ github.sha }}
