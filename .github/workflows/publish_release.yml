@@ -9,7 +9,7 @@ on:
 
 jobs:
   publish_release:
-    if: startsWith(github.event.pull_request.head.ref, 'release/') || startsWith(github.event.pull_request.head.ref, 'hotfix/')
+    if: github.event.pull_request.merged && (startsWith(github.event.pull_request.head.ref, 'release/') || startsWith(github.event.pull_request.head.ref, 'hotfix/'))
     runs-on: macos-13
     steps:
 
