@@ -10,7 +10,7 @@ on:
 jobs:
   publish_release:
     if: startsWith(github.event.pull_request.head.ref, 'release/') || startsWith(github.event.pull_request.head.ref, 'hotfix/')
-    runs-on: ubuntu-latest
+    runs-on: macos-13
     steps:
 
     - name: Extract version from branch name (for release branches)
