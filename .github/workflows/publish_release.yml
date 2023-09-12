@@ -43,4 +43,4 @@ jobs:
         tag: ${{ env.RELEASE_VERSION }}
 
     - name: Publish pod
-      run: bundle exec pod lib lint
+      run: bundle exec pod spec lint
