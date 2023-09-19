@@ -3,17 +3,22 @@ module Fastlane
       class PrecompileModuleAction < Action
         def self.run(params)
           output_dir = params[:output_dir]
+          scheme_name = params[:scheme_name]
+          module_name = params[:module_name]
           build_dir = ".build"
   
           sh("rm -rf #{output_dir}")
           sh("rm -rf #{build_dir}")
           sh("mkdir #{output_dir}")
   
-        Fastlane::Actions::PrecompileXcodeprojModuleAction.run(
-            scheme_name: params[:scheme_name],
-            module_name: params[:module_name],
+          Fastlane::Actions::PrecompileXcodeprojModuleAction.run(
+            scheme_name: scheme_name,
+            module_name: module_name,
             output_dir_path: output_dir
-        )
+          )
+
+          sh("cp -r #{build_dir}/#{module_name}-ios.xcarchive/dSYMs/#{module_name}.framework.dSYM #{output_dir}/#{module_name}-ios.framework.dSYM")
+          sh("cp -r #{build_dir}/#{module_name}-ios.xcarchive/dSYMs/#{module_name}.framework.dSYM #{output_dir}/#{module_name}-ios_sim.framework.dSYM")
         end
   
         private

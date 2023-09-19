@@ -11,6 +11,8 @@ module_name = "Project"
 precompiled_folder_path = "Precompiled"
 build_folder_path = ".build"
 precompiled_xcframework_path = "#{precompiled_folder_path}/Project.xcframework"
+ios_dsyms_path = "#{precompiled_folder_path}/Project-ios.framework.dSYM"
+ios_sim_dsyms_path = "#{precompiled_folder_path}/Project-ios_sim.framework.dSYM"
 xcodeproj_path = "Project.xcodeproj"
 pbxproj_path = "#{xcodeproj_path}/project.pbxproj"
 podspec_path = "Project.podspec"
@@ -71,7 +73,7 @@ platform :ios do
       repository_name: github_repository_name,
       tag_name: version,
       api_token: github_api_token,
-      upload_assets: [precompiled_xcframework_path],
+      upload_assets: [precompiled_xcframework_path, ios_dsyms_path, ios_sim_dsyms_path],
       is_draft: true
     )
   end
