@@ -1,8 +1,11 @@
 module Fastlane
     module Actions
-      class SetPodspecSourceAction < Action
+      class UpdatePodspecSourceAction < Action
         def self.run(params)
-          sh("sed -i '' 's|s.source =.*|s.source = { :http => \"#{params[:binary_zip_path]}\", :flatten => true }|g' #{params[:podspec_path]}")
+          remote_binary_zip_url = params[:remote_binary_zip_url]
+          podspec_file_path = params[:podspec_file_path]
+
+          sh("sed -i '' 's|s.source =.*|s.source = { :http => \"#{remote_binary_zip_url}\", :flatten => true }|g' #{podspec_file_path}")
         end
   
         #####################################################
@@ -10,18 +13,18 @@ module Fastlane
         #####################################################
   
         def self.description
-          "Replaces podspec source"
+          "Updates podspec source"
         end
   
         def self.available_options
           [
-            FastlaneCore::ConfigItem.new(key: :binary_zip_path,
-                                         description: 'Path to binary zip file',
+            FastlaneCore::ConfigItem.new(key: :remote_binary_zip_url,
+                                         description: 'Url to the remote zip file',
                                          optional: false,
                                          is_string: true),
   
-            FastlaneCore::ConfigItem.new(key: :podspec_path,
-                                         description: 'Path to podspec file',
+            FastlaneCore::ConfigItem.new(key: :podspec_file_path,
+                                         description: 'Path to the podspec file',
                                          optional: false,
                                          is_string: true)
           ]

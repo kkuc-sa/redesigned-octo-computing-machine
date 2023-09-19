@@ -11,6 +11,7 @@ module_name = "Project"
 xcodeproj_file = "#{module_name}.xcodeproj"
 pbxproj_file = "#{xcodeproj_file}/project.pbxproj"
 podspec_file = "#{module_name}.podspec"
+package_file = "Package.swift"
 xcframework_file = "#{module_name}.xcframework"
 xcframework_zip_file = "#{module_name}.xcframework.zip"
 ios_dsym_file = "#{module_name}-ios.framework.dSYM"
@@ -46,6 +47,7 @@ platform :ios do
     zip_assets
     release_to_github(version: version)
     update_podspec(version: version)
+    update_swift_package(version: version)
   end
 
   # - Private
@@ -103,13 +105,32 @@ platform :ios do
       path: podspec_file,
       version_number: version
     )
-    set_podspec_source(
-      binary_zip_path: published_asset_source,
-      podspec_path: podspec_file
+    update_podspec_source(
+      remote_binary_zip_url: published_asset_source,
+      podspec_file_path: podspec_file
     )
     git_commit(
       path: [podspec_file],
       message: "Update podspec",
+      allow_nothing_to_commit: true
+    )
+  end
+
+  private_lane :update_swift_package do |options|
+    version = options[:version]
+    published_asset_source = resolve_tagged_binary_url(
+      draft_asset_url: github_release_uploaded_binary_url(xcframework_zip_file),
+      version: version
+    )
+
+    update_swift_package_binary_target(
+      local_binary_zip_path: xcframework_zip_file,
+      remote_binary_zip_url: published_asset_source,
+      package_file_path: package_file
+    )
+    git_commit(
+      path: [package_file],
+      message: "Update swift package",
       allow_nothing_to_commit: true
     )
   end
