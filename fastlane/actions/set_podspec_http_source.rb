@@ -2,7 +2,7 @@ module Fastlane
     module Actions
       class SetPodspecHttpSourceAction < Action
         def self.run(params)
-          sh("sed -i '' 's|s.source =.*|s.source = { :http => \"#{params[:binary_zip_path]}\" }|g' #{params[:podspec_path]}")
+          sh("sed -i '' 's|s.source =.*|s.source = { :http => \"#{params[:binary_zip_path]}\", :flatten => true }|g' #{params[:podspec_path]}")
         end
   
         #####################################################

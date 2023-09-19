@@ -15,6 +15,7 @@ xcframework_file = "#{module_name}.xcframework"
 xcframework_zip_file = "#{module_name}.xcframework.zip"
 ios_dsym_file = "#{module_name}-ios.framework.dSYM"
 ios_sim_dsym_file = "#{module_name}-ios_sim.framework.dSYM"
+license_file = "LICENSE"
 
 precompiled_dir_path = "Precompiled"
 xcframework_file_path = "#{precompiled_dir_path}/#{xcframework_file}"
@@ -42,6 +43,7 @@ platform :ios do
 
     set_marketing_version(version: version)
     build_xcframework
+    zip_assets
     release_to_github(version: version)
     update_podspec(version: version)
   end
@@ -70,6 +72,14 @@ platform :ios do
     )
   end
 
+  private_lane :zip_assets do 
+    zip(
+      path: "./",
+      output_path: xcframework_zip_file,
+      include: [xcframework_file_path, ios_dsym_file_path, ios_sim_dsym_file_path, license_file]
+    )
+  end
+
   private_lane :release_to_github do |options|
     version = options[:version]
 
@@ -77,7 +87,7 @@ platform :ios do
       repository_name: github_repository_name,
       tag_name: version,
       api_token: github_api_token,
-      upload_assets: [xcframework_file_path, ios_dsym_file_path, ios_sim_dsym_file_path],
+      upload_assets: [xcframework_zip_file],
       is_draft: true
     )
   end
@@ -106,6 +116,7 @@ platform :ios do
 
   private_lane :clean_up do
     clean_outputs(output_dir: precompiled_dir_path)
+    sh("rm -rf #{xcframework_zip_file}")
   end  
 
   after_all do |lane, options|
