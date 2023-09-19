@@ -126,5 +126,6 @@ end
 
 def github_release_uploaded_binary_url
   assets = lane_context[SharedValues::SET_GITHUB_RELEASE_JSON]['assets']
-  assets.first['browser_download_url']
+  xcframework_asset = assets.find { |asset| asset['name'] == "Project.xcframework.zip" }
+  xcframework_asset['browser_download_url']
 end
