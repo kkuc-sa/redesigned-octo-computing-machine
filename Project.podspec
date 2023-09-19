@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
                       DESC
   
     s.homepage     = "https://github.com/kkuc-sa/redesigned-octo-computing-machine.git"
-    s.license      = "MIT"
+    s.license      =  { :type => 'MIT' }
     s.author       = "kkuc-sa"
   
     s.platform = :ios, "16.0"
