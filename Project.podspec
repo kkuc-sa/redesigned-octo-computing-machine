@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
     s.name         = "Project"
-    s.version      = "0.0.42"
+    s.version      = "0.0.43"
     s.summary      = "Project for iOS"
   
     s.description  = <<-DESC
@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   
     s.platform = :ios, "16.0"
   
-    s.source = { :http => "https://github.com/kkuc-sa/redesigned-octo-computing-machine/releases/download/0.0.42/Project.xcframework.zip", :flatten => true }
+    s.source = { :http => "https://github.com/kkuc-sa/redesigned-octo-computing-machine/releases/download/0.0.43/Project.xcframework.zip", :flatten => true }
     s.vendored_frameworks = "Project.xcframework"
   
   end
