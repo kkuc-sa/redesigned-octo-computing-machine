@@ -4,7 +4,7 @@ public class Class {
     
     // MARK: - API
     
-    /// A method that does sth.
+    /// A static method that does sth.
 
-    public func foo() { }
+    public static func foo() { }
 }
