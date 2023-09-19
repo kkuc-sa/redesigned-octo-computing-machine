@@ -1,6 +1,6 @@
 module Fastlane
     module Actions
-      class SetPodspecHttpSourceAction < Action
+      class SetPodspecSourceAction < Action
         def self.run(params)
           sh("sed -i '' 's|s.source =.*|s.source = { :http => \"#{params[:binary_zip_path]}\", :flatten => true }|g' #{params[:podspec_path]}")
         end
@@ -10,7 +10,7 @@ module Fastlane
         #####################################################
   
         def self.description
-          "Replaces podspec source http path"
+          "Replaces podspec source"
         end
   
         def self.available_options

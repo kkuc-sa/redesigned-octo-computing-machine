@@ -73,10 +73,10 @@ platform :ios do
   end
 
   private_lane :zip_assets do 
-    zip(
-      path: "./",
-      output_path: xcframework_zip_file,
-      include: [xcframework_file_path, ios_dsym_file_path, ios_sim_dsym_file_path, license_file]
+    prepare_assets(
+      license_file_path: license_file,
+      precompiled_dir_path: precompiled_dir_path,
+      output_dir_path: xcframework_zip_file
     )
   end
 
@@ -103,7 +103,7 @@ platform :ios do
       path: podspec_file,
       version_number: version
     )
-    set_podspec_http_source(
+    set_podspec_source(
       binary_zip_path: published_asset_source,
       podspec_path: podspec_file
     )
@@ -116,7 +116,6 @@ platform :ios do
 
   private_lane :clean_up do
     clean_outputs(output_dir: precompiled_dir_path)
-    sh("rm -rf #{xcframework_zip_file}")
   end  
 
   after_all do |lane, options|
