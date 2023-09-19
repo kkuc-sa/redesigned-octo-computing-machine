@@ -8,14 +8,18 @@ ENV['FASTLANE_XCODEBUILD_SETTINGS_RETRIES'] = "10"
 # - Variables
 
 module_name = "Project"
-precompiled_folder_path = "Precompiled"
-build_folder_path = ".build"
-precompiled_xcframework_path = "#{precompiled_folder_path}/Project.xcframework"
-ios_dsyms_path = "#{precompiled_folder_path}/Project-ios.framework.dSYM"
-ios_sim_dsyms_path = "#{precompiled_folder_path}/Project-ios_sim.framework.dSYM"
-xcodeproj_path = "Project.xcodeproj"
-pbxproj_path = "#{xcodeproj_path}/project.pbxproj"
-podspec_path = "Project.podspec"
+xcodeproj_file = "#{module_name}.xcodeproj"
+pbxproj_file = "#{xcodeproj_file}/project.pbxproj"
+podspec_file = "#{module_name}.podspec"
+xcframework_file = "#{module_name}.xcframework"
+xcframework_zip_file = "#{module_name}.xcframework.zip"
+ios_dsym_file = "#{module_name}-ios.framework.dSYM"
+ios_sim_dsym_file = "#{module_name}-ios_sim.framework.dSYM"
+
+precompiled_dir_path = "Precompiled"
+xcframework_file_path = "#{precompiled_dir_path}/#{xcframework_file}"
+ios_dsym_file_path = "#{precompiled_dir_path}/#{ios_dsym_file}"
+ios_sim_dsym_file_path = "#{precompiled_dir_path}/#{ios_sim_dsym_file}"
 
 # - Lanes
 
@@ -49,10 +53,10 @@ platform :ios do
 
     increment_version_number_in_xcodeproj(
       version_number: version,     
-      xcodeproj: xcodeproj_path
+      xcodeproj: xcodeproj_file
     )
     git_commit(
-      path: [pbxproj_path],
+      path: [pbxproj_file],
       message: "Set module version to #{version}",
       allow_nothing_to_commit: true
     )
@@ -62,7 +66,7 @@ platform :ios do
     precompile_module(
       scheme_name: module_name,
       module_name: module_name,
-      output_dir: precompiled_folder_path
+      output_dir: precompiled_dir_path
     )
   end
 
@@ -73,7 +77,7 @@ platform :ios do
       repository_name: github_repository_name,
       tag_name: version,
       api_token: github_api_token,
-      upload_assets: [precompiled_xcframework_path, ios_dsyms_path, ios_sim_dsyms_path],
+      upload_assets: [xcframework_file_path, ios_dsym_file_path, ios_sim_dsym_file_path],
       is_draft: true
     )
   end
@@ -81,27 +85,27 @@ platform :ios do
   private_lane :update_podspec do |options|
     version = options[:version]
     published_asset_source = resolve_tagged_binary_url(
-      draft_asset_url: github_release_uploaded_binary_url,
+      draft_asset_url: github_release_uploaded_binary_url(xcframework_zip_file),
       version: version
     )
 
     version_bump_podspec(
-      path: podspec_path,
+      path: podspec_file,
       version_number: version
     )
     set_podspec_http_source(
       binary_zip_path: published_asset_source,
-      podspec_path: podspec_path
+      podspec_path: podspec_file
     )
     git_commit(
-      path: [podspec_path],
+      path: [podspec_file],
       message: "Update podspec",
       allow_nothing_to_commit: true
     )
   end
 
   private_lane :clean_up do
-    clean_outputs(output_dir: precompiled_folder_path)
+    clean_outputs(output_dir: precompiled_dir_path)
   end  
 
   after_all do |lane, options|
@@ -124,8 +128,8 @@ def github_repository_name
   ENV['GITHUB_REPOSITORY_NAME']
 end
 
-def github_release_uploaded_binary_url
+def github_release_uploaded_binary_url(file_name)
   assets = lane_context[SharedValues::SET_GITHUB_RELEASE_JSON]['assets']
-  xcframework_asset = assets.find { |asset| asset['name'] == "Project.xcframework.zip" }
+  xcframework_asset = assets.find { |asset| asset['name'] == file_name }
   xcframework_asset['browser_download_url']
 end
