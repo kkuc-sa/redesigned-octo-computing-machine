@@ -16,8 +16,8 @@ let package = Package(
     targets: [
       .binaryTarget(
         name: "Project",
-        url: "https://github.com/kkuc-sa/redesigned-octo-computing-machine/releases/download/0.0.43/Project.xcframework.zip",
-        checksum: "d99653df1d1ea4c0f6bb5a36cfd7fe81bb5cfc681a2ffacb277f98a6c55e937e"
+        url: "https://github.com/kkuc-sa/redesigned-octo-computing-machine/releases/download/0.0.44/Project.xcframework.zip"
+        checksum: "7ceaf3753e3742c56c3fe7ae439298043682a85e2c83ae875df0af718dc27117",
       )
     ]
 )
