@@ -42,5 +42,7 @@ jobs:
         allowUpdates: true
         tag: ${{ env.RELEASE_VERSION }}
 
-    - name: Publish pod
-      run: bundle exec pod spec lint
+    - name: Validate manifests
+      run: |
+        bundle exec pod spec lint
+        swift package dump-package

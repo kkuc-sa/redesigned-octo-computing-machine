@@ -9,7 +9,7 @@ module Fastlane
           checksum = sh("swift package compute-checksum #{local_binary_zip_path} | tr -d '\n'")
 
           sh("sed -i '' 's|url:.*|url: \"#{remote_binary_zip_url}\"|g' #{package_file_path}")
-          sh("sed -i '' 's|checksum:.*|checksum: \"#{checksum}\"|g' #{package_file_path}")
+          sh("sed -i '' 's|checksum:.*|checksum: \"#{checksum}\",|g' #{package_file_path}")
         end
   
         #####################################################
