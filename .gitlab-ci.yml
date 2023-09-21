@@ -1,0 +1,49 @@
+stages:
+  - test
+
+variables:
+  PODFILE_PATH: Podfile.lock
+  PODS_PATH: Pods/
+  VENDOR_PATH: vendor/bundle
+
+# - Setup
+
+bundler:install:
+  cache: 
+    key: ${CI_COMMIT_REF_SLUG}
+    untracked: true
+    paths:
+      - $VENDOR_PATH
+  script:
+    - bundle config set --local path $VENDOR_PATH
+    - bundle install
+
+cocoapods:install:
+  needs:
+    - bundler:install
+  cache: 
+    key: ${CI_COMMIT_REF_SLUG}
+    untracked: true
+    paths:
+      - $PODS_PATH
+      - $PODFILE_PATH
+  script:
+    - bundle exec pod install --repo-update
+
+# - Test
+
+test:unit-test:
+  stage: test
+  needs:
+    - bundler:install
+    - cocoapods:install
+  script:
+    - bundle exec fastlane test
+  rules:
+    - when: always
+  artifacts:
+    when: always
+    paths:
+      - fastlane/test_output/report.junit
+    reports:
+      junit: fastlane/test_output/report.junit
