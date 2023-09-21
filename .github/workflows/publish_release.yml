@@ -46,3 +46,8 @@ jobs:
       run: |
         bundle exec pod spec lint
         swift package dump-package
+
+    - name: Publish pod
+      env: 
+        COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+      run: bundle exec pod trunk push
