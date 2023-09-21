@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 
-    s.name         = "Project"
+    s.name         = "redesigned-octo-computing-machine"
     s.version      = "0.0.48"
     s.summary      = "Project for iOS"
   
