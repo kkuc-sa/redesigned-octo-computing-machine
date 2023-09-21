@@ -6,7 +6,9 @@ variables:
   PODS_PATH: Pods/
   VENDOR_PATH: vendor/bundle
 
-# - Setup
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 
 bundler:install:
   cache: 
@@ -30,8 +32,6 @@ cocoapods:install:
   script:
     - bundle exec pod install --repo-update
 
-# - Test
-
 test:unit-test:
   stage: test
   needs:
@@ -39,8 +39,6 @@ test:unit-test:
     - cocoapods:install
   script:
     - bundle exec fastlane test
-  rules:
-    - when: always
   artifacts:
     when: always
     paths:
