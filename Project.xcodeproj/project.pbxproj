@@ -413,7 +413,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.50;
+				MARKETING_VERSION = 0.0.55;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++20";
 				PRODUCT_BUNDLE_IDENTIFIER = "kkuc-sa.Project";
@@ -448,7 +448,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.50;
+				MARKETING_VERSION = 0.0.55;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++20";
 				PRODUCT_BUNDLE_IDENTIFIER = "kkuc-sa.Project";
@@ -467,7 +467,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8DUHXVGWZ7;
 				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 0.0.50;
+				MARKETING_VERSION = 0.0.55;
 				PRODUCT_BUNDLE_IDENTIFIER = "kkuc-sa.ProjectTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -483,7 +483,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8DUHXVGWZ7;
 				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 0.0.50;
+				MARKETING_VERSION = 0.0.55;
 				PRODUCT_BUNDLE_IDENTIFIER = "kkuc-sa.ProjectTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
