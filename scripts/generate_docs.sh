@@ -5,6 +5,7 @@ DOCS_DIR=docs
 ARCHIVE=$DERIVED_DIR/Build/Products/Debug-iphoneos/Project.doccarchive
 
 xcodebuild docbuild \
+    -workspace Project.xcworkspace \
     -scheme Project \
     -destination generic/platform=iOS \
     -derivedDataPath $DERIVED_DIR
