@@ -17,5 +17,8 @@ jobs:
         ruby-version: 3.2.2
         bundler-cache: true
 
+    - name: Install pods
+      run: bundle exec pod install --repo-update
+
     - name: Unit tests
       run: bundle exec fastlane test

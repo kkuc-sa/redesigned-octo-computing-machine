@@ -30,6 +30,9 @@ jobs:
     - name: Create release branch
       run: git checkout -b release/${{ github.event.inputs.version }}
 
+    - name: Install pods
+      run: bundle exec pod install --repo-update
+
     - name: Prepeare release
       env:
         GITHUB_API_TOKEN: ${{ secrets.GH_API_TOKEN }}
